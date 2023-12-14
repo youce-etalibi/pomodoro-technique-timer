@@ -20,6 +20,7 @@ export default function HomePage() {
         <div className="Application">
           {/* <h1>{Mode}</h1> */}
           <BrowserRouter basename="/pomodoro-technique-timer">
+          {/* <BrowserRouter> */}
             <Routes>
               <Route
                 path="/"

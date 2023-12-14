@@ -95,7 +95,7 @@ export default function TodoList() {
                     : null
                 }
               >
-                <i className="bx bxs-message-square-x"></i>
+                <i class='bx bx-trash'></i>
               </button>
             </li>
             {selectedTaskIndex === index && (
