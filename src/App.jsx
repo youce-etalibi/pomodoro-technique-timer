@@ -1,12 +1,21 @@
-import React, { Fragment } from 'react'
-import './App.css'
-import HomePage from './components/z - homepage'
+import React, { Fragment } from "react";
+import "./App.css";
+import HomePage from "./components/z - homepage";
+import { motion, useScroll } from "framer-motion";
+
 export default function App() {
-  return(
+  const { scrollYProgress } = useScroll();
+
+  return (
     <Fragment>
-      <HomePage/>
+      <div className="divOfProgress">
+        <motion.div
+          style={{ scaleX: scrollYProgress }}
+          className="progess-bar-scroll"
+        />
+      </div>
+      <HomePage />
     </Fragment>
-  )
+  );
 }
-
-
+   

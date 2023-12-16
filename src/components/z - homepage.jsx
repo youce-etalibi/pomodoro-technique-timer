@@ -4,23 +4,28 @@ import Header, { Appcontext } from "./a - header";
 import Timer from "./b - timer";
 import TodoList from "./c - todo list";
 import Documentation from "./d - documentation";
-import Login from "./e - Login";
+import Login from "./e - login";
 import Signup from "./g - signup";
 import ResetPassword from "./f - resetPassword";
+import { motion, useScroll } from "framer-motion";
 import "../index.css";
+
 export default function HomePage() {
   const [Mode, SetMode] = useState("naturale");
   const silverMode = useContext(Appcontext);
+
   useEffect(() => {
-    console.log("silverMode changed:", silverMode);
-  }, [silverMode]);
+    if (Mode === "silver") {
+      import("../silver.css")
+    }
+  }, [Mode]);
+
   return (
     <Fragment>
-      <div id={Mode === "silver" ? "silver" : "naturale"}>
+      <div className={Mode === "silver" ? "silver" : "naturale"}>
         <div className="Application">
-          {/* <h1>{Mode}</h1> */}
-          {/* <BrowserRouter basename="/pomodoro-technique-timer"> */}
           <BrowserRouter>
+          {/* <h1>{Mode }</h1> */}
             <Routes>
               <Route
                 path="/"
