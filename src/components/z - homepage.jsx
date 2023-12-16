@@ -24,7 +24,7 @@ export default function HomePage() {
     <Fragment>
       <div className={Mode === "silver" ? "silver" : "naturale"}>
         <div className="Application">
-          <BrowserRouter basename="/pomodoro-tech-timer">
+          <BrowserRouter basename="/pomodoro-technique-timer">
           {/* <h1>{Mode }</h1> */}
             <Routes>
               <Route
