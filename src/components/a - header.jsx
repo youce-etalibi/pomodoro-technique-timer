@@ -2,38 +2,43 @@ import React, { Fragment, createContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
-import { ChangeMode, UpdateSettings } from "./Redux/Action";
 import BrandLogo from "../media/logoBg.png";
-const defaultValue = "natural";
-const Appcontext = createContext(defaultValue);
-export { Appcontext };
+import { AUTH, ChangeMode, UpdateSettings } from "./Redux/Action";
+
+    //cree Context
+  const defaultValue = "natural";
+  const Appcontext = createContext(defaultValue);
+  export { Appcontext };
+
+
 export default function Header({ Switcher, onSwitch }) {
-  const [silverMode, setSilverMode] = useState();
-  const [alarmX, setAlarmX] = useState();
-  const audio = new Audio(alarmX);
-  alarmX ? audio.play() : null;
-  // console.log(silverMode);
+
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const users = useSelector((state) => state.user);
   const [loginCorrect, setUsersInCorrect] = useState(users.loginCorrect);
-  // console.log(users)
+  const settings = useSelector((state) => state.settings);
+
+  const [silverMode, setSilverMode] = useState();
+
+  //cree variable et les function Opppening Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const settings = useSelector((state) => state.settings);
-  // console.log(settings)
+
+  //cree les variable de parametrage pomodoro
   const [pomodoro, setPomodoro] = useState(settings.pomodoro);
   const [shortBreak, setShortBreak] = useState(settings.shortBreak);
   const [longBreak, setLongBreak] = useState(settings.longBreak);
   const [autoStartPomodoro, setAutoStartPomodoro] = useState(false);
   const [autoStartShortBreak, setAutoStartShortBreak] = useState(false);
-  const [longBreakInterval, setLongBreakInterval] = useState(
-    settings.longBreakInterval
-  );
+  const [longBreakInterval, setLongBreakInterval] = useState(settings.longBreakInterval);
+
+
+  //cree la funtion de changement de settings pomodoro
   function handleSettings(e) {
     e.preventDefault();
     const newSettings = {
@@ -47,12 +52,18 @@ export default function Header({ Switcher, onSwitch }) {
     dispatch(UpdateSettings(newSettings), ChangeMode(silverMode));
     closeModal();
   }
+
+
+  //cree variable de rankApi data et fetch 
   const [rankApi, setRankApi] = useState([]);
   useEffect(() => {
     fetch("https://mocki.io/v1/a00d524f-a0b8-4460-b6a2-c27e59dc64f9")
       .then((repo) => repo.json())
       .then((data) => setRankApi(data));
   }, []);
+
+
+  // cree variable toggle et function pour affiche le rank
   const [showRankToggle, setShowRankToggle] = useState(true);
   function ShowRank() {
     if (showRankToggle) {
@@ -60,13 +71,7 @@ export default function Header({ Switcher, onSwitch }) {
         <div>
           <table className="tableRank" cellSpacing="6">
             <caption
-              style={{
-                fontWeight: "bold",
-                textAlign: "center",
-                marginLeft: "10px",
-              }}
-            >
-              Focus Time This Week
+              style={{ fontWeight: "bold", textAlign: "center", marginLeft: "10px",}}> Focus Time This Week
             </caption>
             <thead>
               <tr>
@@ -77,14 +82,12 @@ export default function Header({ Switcher, onSwitch }) {
               </tr>
             </thead>
             <tbody>
+              {/* map rank*/}
               {rankApi.map((item, index) => (
                 <tr key={item.id} className="trRank">
                   <td className="tdRank">{++index}</td>
                   <td className="tdRankImg">
-                    <img
-                      src={BrandLogo}
-                      style={{ width: "30px", borderRadius: "50%" }}
-                    />
+                    <img src={BrandLogo} style={{ width: "30px", borderRadius: "50%" }} />
                   </td>
                   <td className="tdRank">{item.user}</td>
                   <td className="tdRank">{item.time}</td>
@@ -97,17 +100,28 @@ export default function Header({ Switcher, onSwitch }) {
     }
   }
 
+
+  //cree varibale toggle et function pour le modal de rank
   const [isModalOpenRanking, setIsModalOpenRanking] = useState(false);
 
-  const openModalRanking = () => {
-    setIsModalOpenRanking(true);
-  };
-  const closeModalRanking = () => {
-    setIsModalOpenRanking(false);
+  const openModalRanking = () => { setIsModalOpenRanking(true); };
+  const closeModalRanking = () => { setIsModalOpenRanking(false); };
+
+
+  //cree function pour change le textContent de button login 
+  const handleButtonClick = () => {
+    if (loginCorrect) {
+      dispatch(AUTH(false))
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
   };
   return (
     <Fragment>
       <Appcontext.Provider value={silverMode}>
+
+        {/* header composant */}
         <div className="parentHeader">
           <div className="header">
             <Link to="/">
@@ -129,13 +143,19 @@ export default function Header({ Switcher, onSwitch }) {
                 </Link>
               </li>
               <li>
-                <Link to="/login">
-                  <button className="Link">
+                <Link to={loginCorrect ? "/" : "/login"}>
+                  <button className="Link" onClick={handleButtonClick}>
                     {loginCorrect ? (
-                      <i
-                        class="bx bxs-user-check"
-                        style={{ fontSize: "20px" }}
-                      ></i>
+                      <Fragement>
+                        <i
+                          class="bx bxs-user-check"
+                          style={{ fontSize: "20px" }}
+                        ></i>
+                        <i
+                          class="bx bx-log-out"
+                          style={{ fontSize: "20px" }}
+                        ></i>
+                      </Fragement>
                     ) : (
                       <>
                         <i className="bx bx-user"></i> Login
@@ -147,14 +167,16 @@ export default function Header({ Switcher, onSwitch }) {
             </ul>
           </div>
         </div>
+
+        {/* Modal de Setting */}
         <Modal
           id="Modal"
           isOpen={isModalOpen}
           onRequestClose={closeModal}
           contentLabel="Example Modal"
           className="custom-modal"
-          overlayClassName="custom-modal-overlay"
-        >
+          overlayClassName="custom-modal-overlay">
+
           <div className="DivOFModal">
             <div className="headerModal">
               <button onClick={closeModal} className="backToHome">
@@ -162,21 +184,15 @@ export default function Header({ Switcher, onSwitch }) {
               </button>
               <h2>Setting</h2>
             </div>
-            <h3>
-              <i class="bx bx-time"></i> Timer
-            </h3>
+            <h3><i class="bx bx-time"></i> Timer</h3>
             <h5>Time (minutes) </h5>
+
             <form onSubmit={handleSettings}>
               <table className="tableSettings">
                 <tr>
                   <td style={{ width: "47%" }} colSpan="3">
                     <div
-                      style={{
-                        borderBottom: "3px solid red",
-                        fontWeight: "bold",
-                        borderRadius: "5px",
-                      }}
-                    ></div>
+                      style={{ borderBottom: "3px solid red", fontWeight: "bold", borderRadius: "5px",}} ></div>
                   </td>
                 </tr>
                 <tr>
@@ -228,8 +244,7 @@ export default function Header({ Switcher, onSwitch }) {
                       type="checkbox"
                       className="checkBoxTask"
                       onChange={(e) => setAutoStartPomodoro(!autoStartPomodoro)}
-                      checked={autoStartPomodoro ? true : false}
-                    />
+                      checked={autoStartPomodoro ? true : false}/>
                   </td>
                 </tr>
                 <tr>
@@ -239,8 +254,7 @@ export default function Header({ Switcher, onSwitch }) {
                       type="number"
                       className="inputesSettings"
                       onChange={(e) => setLongBreakInterval(e.target.value)}
-                      value={longBreakInterval}
-                    />
+                      value={longBreakInterval}/>
                   </td>
                 </tr>
                 <tr>
@@ -250,8 +264,7 @@ export default function Header({ Switcher, onSwitch }) {
                         borderBottom: "3px solid red",
                         fontWeight: "bold",
                         borderRadius: "5px",
-                      }}
-                    ></div>
+                      }}></div>
                   </td>
                 </tr>
                 <h3>
@@ -269,8 +282,7 @@ export default function Header({ Switcher, onSwitch }) {
                         Switcher(e.target.value);
                         onSwitch(e.target.value);
                       }}
-                      checked
-                    />
+                      checked/>
                     <input
                       type="radio"
                       className="checkBoxTaskModeS"
@@ -278,9 +290,7 @@ export default function Header({ Switcher, onSwitch }) {
                       value="silver"
                       onChange={(e) => {
                         Switcher(e.target.value);
-                        onSwitch(e.target.value);
-                      }}
-                    />
+                        onSwitch(e.target.value);}}/>
                   </td>
                 </tr>
                 <tr>
@@ -290,24 +300,17 @@ export default function Header({ Switcher, onSwitch }) {
                       type="file"
                       className="inputesSettings"
                       style={{ display: "none" }}
-                      onChange={(e) => setAlarmX(e.target.files[0])}
-                    />
+                      onChange={(e) => setAlarmX(e.target.files[0])}/>
                     <input
                       type="button"
                       className="inputesSettingsFile"
-                      value="+Choose File"
-                    />
+                      value="+Choose File"/>
                   </td>
                 </tr>
                 <tr>
                   <td style={{ width: "47%" }} colSpan="3">
                     <div
-                      style={{
-                        borderBottom: "3px solid red",
-                        fontWeight: "bold",
-                        borderRadius: "5px",
-                      }}
-                    ></div>
+                      style={{ borderBottom: "3px solid red", fontWeight: "bold", borderRadius: "5px", }} ></div>
                   </td>
                 </tr>
                 <tr>
@@ -327,8 +330,7 @@ export default function Header({ Switcher, onSwitch }) {
           onRequestClose={closeModal}
           contentLabel="Example Modal"
           className="custom-modal"
-          overlayClassName="custom-modal-overlay"
-        >
+          overlayClassName="custom-modal-overlay">
           <div className="ModalReport">
             <button onClick={closeModalRanking} className="backToHome">
               <i class="bx bx-x-circle"></i>

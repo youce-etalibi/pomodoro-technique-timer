@@ -1,21 +1,33 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AUTH, FetchUsers, login } from "./Redux/Action";
 import BrandLogo from "../media/logoBg.png";
+
+import { AUTH, FetchUsers, login } from "./Redux/Action";
+
+
 export default function Login() {
+
+  //cree function navigate et dispatch et select users
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.user.users);
+
+  //cree variables de form
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
-  const users = useSelector((state) => state.user.users);
-  console.log(users)
-  useEffect(() => {
-    fetch("http://localhost:4000/users")
-      .then((Response) => Response.json())
-      .then((data) => dispatch(FetchUsers(data)));
-  }, []);
+
+  //fetch data users api
+  // console.log(users)
+  // useEffect(() => {
+  //   fetch("http://localhost:4000/users")
+  //     .then((Response) => Response.json())
+  //     .then((data) => dispatch(FetchUsers(data)));
+  // }, []);
+
+
+  //cree function de login
   function handleSubmit(e) {
     e.preventDefault();
     const userIndex = users.findIndex(
@@ -23,12 +35,15 @@ export default function Login() {
     );
     if (userIndex !== -1) {
       const authenticatedUser = users[userIndex];
-      dispatch(login(authenticatedUser), AUTH(true));
+      dispatch(login(authenticatedUser));
+      dispatch(AUTH(true));
       navigate("/");
     } else {
       setError("Email ou mot de pass incorrect");
     }
   }
+
+
   return (
     <Fragment>
       <div className="bodyOfLogin">
@@ -36,9 +51,7 @@ export default function Login() {
           <button
             className="back"
             onClick={() => {
-              navigate("/");
-            }}
-          >
+              navigate("/");}}>
             <i class="bx bx-arrow-back"></i>
           </button>
           <div className="divOfBrand">
@@ -54,8 +67,7 @@ export default function Login() {
                   <input
                     type="button"
                     value="Login with Google"
-                    className="inputGoogle"
-                  />
+                    className="inputGoogle"/>
                   <br />
                 </Link>
               </span>
@@ -63,28 +75,13 @@ export default function Login() {
                 <tr>
                   <td style={{ width: "47%" }}>
                     <div
-                      style={{
-                        borderBottom: "2px solid white",
-                        fontWeight: "bold",
-                      }}
-                    ></div>
+                      style={{ borderBottom: "2px solid white", fontWeight: "bold", }}></div>
                   </td>
                   <td
-                    style={{
-                      verticalAlign: "middle",
-                      textAlign: "center",
-                      color: "white",
-                    }}
-                  >
-                    or
-                  </td>
+                    style={{ verticalAlign: "middle", textAlign: "center", color: "white", }}>or</td>
                   <td style={{ width: "47%" }}>
                     <div
-                      style={{
-                        borderBottom: "2px solid white",
-                        fontWeight: "bold",
-                      }}
-                    ></div>
+                      style={{ borderBottom: "2px solid white", fontWeight: "bold", }}></div>
                   </td>
                 </tr>
               </table>
@@ -95,8 +92,7 @@ export default function Login() {
                   placeholder="example@mail.com"
                   className="inputesLogin"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                  onChange={(e) => setEmail(e.target.value)}/>
                 <br />
                 <label className="labelsLogin">Password</label> <br />
                 <input
@@ -104,8 +100,7 @@ export default function Login() {
                   placeholder="..."
                   className="inputesLogin"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                  onChange={(e) => setPassword(e.target.value)}/>
                 <br />
                 {error ? (
                   <h1
@@ -116,26 +111,18 @@ export default function Login() {
                       backgroundColor: "red",
                       color: "white",
                       borderRadius: "7px",
-                    }}
-                  >
+                    }}>
                     {error}
                   </h1>
                 ) : null}
                 <input
                   type="submit"
                   value="Log in with Email"
-                  className="btnSubmitLogIn"
-                />
+                  className="btnSubmitLogIn"/>
               </div>
               <br />
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  position: "relative",
-                  bottom: "15px",
-                }}
-              >
+                style={{ display: "flex", justifyContent: "center", position: "relative", bottom: "15px",}} >
                 <Link to="/reset-password">
                   <button className="forgotPassword">Forgot Password</button>
                 </Link>

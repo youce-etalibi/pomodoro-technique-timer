@@ -13,14 +13,10 @@ export default function Documentation() {
           mobile browser. The aim of this app is to help you focus on any task
           you are working on, such as study, writing, or coding. This app is
           inspired by
-          <a href="https://pomofocus.io/" className="linksDocu" target="_blank">
-            pomodoro.io
-          </a>
+          <a href="https://pomofocus.io/" className="linksDocu" target="_blank"> pomodoro.io </a>
           which is a time management method developed by Francesco Cirillo.
         </p>
-        <h3>
-          <i class="bx bxs-cube-alt"></i> What is Pomodoro Technique?
-        </h3>
+        <h3><i class="bx bxs-cube-alt"></i> What is Pomodoro Technique?</h3>
         <p>
           The Pomodoro Technique is created by Francesco Cirillo for a more
           productive way to work and study. The technique uses a timer to break
@@ -68,7 +64,6 @@ export default function Documentation() {
           </li>
           <li>
             <h5>
-              
               Custom Settings: Personalize your focus/break time, alarm sounds,
               background sounds, and more.
             </h5>

@@ -11,7 +11,15 @@ const initStateSettings = {
   longBreakInterval: 3,
 };
 const initStateUsers = {
-  users: [],
+  users: [
+    {
+      id : 0,
+      userName : 'Youssef_Talibi',
+      email : "youssef@gmail.com",
+      password : "2004",
+      totalTime : '120'
+    }
+  ],
   loginCorrect: false,
   mode: "naturale",
 };
@@ -56,13 +64,11 @@ function UsersReducer(state = initStateUsers, action) {
     case "LOGIN":
       return {
         ...state,
-        isAuthenticated: true,
         user: action.payload,
       };
     case "LOGOUT":
       return {
         ...state,
-        isAuthenticated: false,
         user: null,
       };
     case "ADD_ACCOUNT":

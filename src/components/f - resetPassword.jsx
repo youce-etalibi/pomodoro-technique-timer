@@ -1,8 +1,11 @@
 import React, { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import BrandLogo from "../media/logoBg.png";
+
 export default function ResetPassword() {
+
   const navigate = useNavigate();
+  
   return (
     <Fragment>
       <div className="Login">
@@ -22,14 +25,12 @@ export default function ResetPassword() {
               <input
                 type="text"
                 placeholder="example@mail.com"
-                className="inputesLogin"
-              />
+                className="inputesLogin"/>
               <br />
               <input
                 type="submit"
                 value="Send Verification"
-                className="btnSubmitLogIn"
-              />
+                className="btnSubmitLogIn"/>
             </div>
             <br />
           </form>
