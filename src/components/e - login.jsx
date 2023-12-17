@@ -10,7 +10,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.users);
-  // console.log(users)
+  console.log(users)
   useEffect(() => {
     fetch("http://localhost:4000/users")
       .then((Response) => Response.json())
