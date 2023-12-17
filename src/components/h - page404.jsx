@@ -1,6 +1,10 @@
 import React, { Fragment } from "react";
 
 export default function Page404(){
+
+    document.title = "Pomodoro - NotFound";
+
+
     return(
         <Fragment>
             <div className="parentNotfound">

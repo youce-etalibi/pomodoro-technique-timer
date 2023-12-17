@@ -6,6 +6,9 @@ export default function ResetPassword() {
 
   const navigate = useNavigate();
   
+
+  document.title = "Pomodoro - Reset Password";
+
   return (
     <Fragment>
       <div className="Login">

@@ -27,6 +27,8 @@ export default function Signup() {
     navigate("/");
   }
 
+  document.title = "Pomodoro - Signup";
+
   return (
     <Fragment>
       <div className="Signup">

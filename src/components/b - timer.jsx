@@ -103,6 +103,9 @@ const Timer = () => {
     };
 
 
+    document.title = "Timer : " + formatTime(timer)
+
+
     return (
       <Fragment>
         <div className="pomodoroRec">

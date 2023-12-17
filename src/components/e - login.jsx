@@ -43,6 +43,7 @@ export default function Login() {
     }
   }
 
+  document.title = "Pomodoro - Login";
 
   return (
     <Fragment>
